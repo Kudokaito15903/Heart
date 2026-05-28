@@ -96,6 +96,254 @@
       0%, 100% { opacity: 0.15; }
       50%       { opacity: 0.9; }
     }
+
+    /* ── Music button ── */
+    #music-btn {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.55rem 1.5rem 0.55rem 1.1rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,150,190,0.35);
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255,210,225,0.85);
+      backdrop-filter: blur(8px);
+      transition: background 0.3s, border-color 0.3s, color 0.3s, box-shadow 0.3s;
+      animation: fade-in 4s ease forwards;
+      opacity: 0;
+    }
+    #music-btn:hover {
+      background: rgba(255,100,160,0.18);
+      border-color: rgba(255,150,190,0.75);
+      color: #fff;
+      box-shadow: 0 0 22px rgba(230,80,140,0.4);
+    }
+    #music-btn.playing {
+      background: rgba(255,80,140,0.2);
+      border-color: rgba(255,150,190,0.8);
+      box-shadow: 0 0 28px rgba(230,80,140,0.5);
+    }
+    #music-btn .icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255,100,160,0.25);
+      border: 1px solid rgba(255,150,190,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      transition: background 0.3s;
+      flex-shrink: 0;
+    }
+    #music-btn.playing .icon {
+      background: rgba(255,80,140,0.4);
+      animation: pulse-btn 1.4s ease-in-out infinite;
+    }
+    @keyframes pulse-btn {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(230,80,140,0.5); }
+      50%       { box-shadow: 0 0 0 6px rgba(230,80,140,0); }
+    }
+
+    /* Equalizer bars shown while playing */
+    .eq { display: none; gap: 2px; align-items: flex-end; height: 14px; }
+    #music-btn.playing .eq { display: flex; }
+    #music-btn.playing .label-play { display: none; }
+    #music-btn:not(.playing) .label-pause { display: none; }
+    .eq span {
+      width: 3px;
+      background: #ff88bb;
+      border-radius: 2px;
+      animation: eq-bar 0.6s ease-in-out infinite alternate;
+    }
+    .eq span:nth-child(1) { height: 6px;  animation-delay: 0s;    animation-duration: 0.5s; }
+    .eq span:nth-child(2) { height: 12px; animation-delay: 0.15s; animation-duration: 0.7s; }
+    .eq span:nth-child(3) { height: 8px;  animation-delay: 0.3s;  animation-duration: 0.4s; }
+    .eq span:nth-child(4) { height: 14px; animation-delay: 0.1s;  animation-duration: 0.6s; }
+    @keyframes eq-bar {
+      from { transform: scaleY(0.3); opacity: 0.6; }
+      to   { transform: scaleY(1);   opacity: 1; }
+    }
+
+    /* ── Video button ── */
+    #video-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.55rem 1.4rem 0.55rem 1rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,150,190,0.35);
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255,210,225,0.85);
+      backdrop-filter: blur(8px);
+      transition: all 0.3s;
+      animation: fade-in 4.5s ease forwards;
+      opacity: 0;
+    }
+    #video-btn:hover {
+      background: rgba(255,100,160,0.18);
+      border-color: rgba(255,150,190,0.75);
+      color: #fff;
+      box-shadow: 0 0 22px rgba(230,80,140,0.4);
+    }
+    #video-btn .vicon {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: rgba(255,100,160,0.25);
+      border: 1px solid rgba(255,150,190,0.5);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem;
+      transition: background 0.3s;
+    }
+    #video-btn:hover .vicon { background: rgba(255,80,140,0.4); }
+
+    /* ── Video Modal ── */
+    #video-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      background: rgba(5,0,15,0.88);
+      backdrop-filter: blur(12px);
+    }
+    #video-modal.open { display: flex; }
+    #modal-box {
+      position: relative;
+      width: min(90vw, 860px);
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(255,150,190,0.3);
+      box-shadow: 0 0 60px rgba(230,80,140,0.35), 0 0 120px rgba(180,40,100,0.2);
+      animation: box-in 0.45s cubic-bezier(.22,1,.36,1);
+    }
+    @keyframes box-in {
+      from { transform: scale(0.88) translateY(30px); opacity: 0; }
+      to   { transform: scale(1) translateY(0); opacity: 1; }
+    }
+    #modal-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 1rem 0.7rem 1.3rem;
+      background: rgba(20,0,30,0.95);
+      border-bottom: 1px solid rgba(255,150,190,0.15);
+    }
+    #modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: rgba(255,200,220,0.9);
+      letter-spacing: 0.08em;
+    }
+    #modal-close {
+      background: rgba(255,100,160,0.15);
+      border: 1px solid rgba(255,150,190,0.35);
+      color: rgba(255,200,220,0.8);
+      border-radius: 50%;
+      width: 30px; height: 30px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+    #modal-close:hover { background: rgba(255,80,140,0.4); color: #fff; }
+    #modal-video-wrap {
+      background: #000;
+      position: relative;
+      min-height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #modal-video { width: 100%; max-height: 72vh; display: none; }
+    #upload-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 3.5rem 2rem;
+      width: 100%;
+    }
+    #upload-placeholder .up-icon { font-size: 2.8rem; animation: heartbeat 1.8s ease-in-out infinite; }
+    #upload-placeholder p {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(255,180,210,0.7);
+    }
+    #upload-placeholder label {
+      padding: 0.55rem 1.8rem;
+      background: rgba(255,100,160,0.2);
+      border: 1px solid rgba(255,150,190,0.5);
+      border-radius: 999px;
+      color: rgba(255,210,225,0.9);
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    #upload-placeholder label:hover { background: rgba(255,80,140,0.35); color: #fff; box-shadow: 0 0 18px rgba(230,80,140,0.4); }
+    #file-input { display: none; }
+    #modal-footer {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 1rem;
+      background: rgba(20,0,30,0.95);
+      border-top: 1px solid rgba(255,150,190,0.1);
+    }
+    #modal-footer.visible { display: flex; }
+    #modal-filename {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: rgba(255,180,210,0.55);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 70%;
+    }
+    #change-video-btn {
+      background: none;
+      border: 1px solid rgba(255,150,190,0.3);
+      color: rgba(255,180,210,0.6);
+      border-radius: 999px;
+      padding: 0.25rem 0.9rem;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    #change-video-btn:hover { background: rgba(255,80,140,0.2); color: #fff; border-color: rgba(255,150,190,0.6); }
   </style>
 </head>
 <body>
@@ -104,9 +352,40 @@
 
 <div id="center">
   <div id="name">Ninh Trang</div>
+  <div id="tagline"><span id="heart-icon">♥</span><span id="heart-icon">♥</span></div>
 </div>
 
 <canvas id="pinkboard"></canvas>
+
+
+<!-- Video Modal -->
+<div id="video-modal">
+  <div id="modal-box">
+    <div id="modal-topbar">
+      <div id="modal-title">♥ Video đáng yêu của bé ♥</div>
+      <button id="modal-close" onclick="closeVideoModal()">✕</button>
+    </div>
+    <div id="modal-video-wrap">
+      <div id="upload-placeholder">
+        <div class="up-icon">🎬</div>
+        <p>Chọn video từ máy của bạn</p>
+        <label for="file-input">📂 Chọn file video</label>
+        <input type="file" id="file-input" accept="video/*" onchange="loadVideo(this)">
+      </div>
+      <video id="modal-video" controls></video>
+    </div>
+    <div id="modal-footer">
+      <span id="modal-filename"></span>
+      <button id="change-video-btn" onclick="document.getElementById('file-input').click()">Đổi video</button>
+    </div>
+  </div>
+</div>
+
+<!-- Video button -->
+<button id="video-btn" onclick="openVideoModal()">
+  <div class="vicon">🎬</div>
+  Video
+</button>
 
 <script>
 /* ─── Star field ─── */
@@ -273,6 +552,76 @@ var ParticlePool = (function() {
   window.addEventListener('resize', onResize);
   setTimeout(function() { onResize(); render(); }, 10);
 })(document.getElementById('pinkboard'));
+
+/* ─── Background Music ─── */
+var bgMusic = new Audio('assets/Heart.mp3');
+bgMusic.loop = true;
+bgMusic.volume = 0.5;
+var isMusicPlaying = false;
+
+function playMusic() {
+  if (!isMusicPlaying) {
+    bgMusic.play().then(function() {
+      isMusicPlaying = true;
+      document.removeEventListener('click', playMusic);
+      document.removeEventListener('touchstart', playMusic);
+    }).catch(function(e) {
+      console.log("Autoplay blocked, waiting for interaction: ", e);
+    });
+  }
+}
+
+// Play music on first user interaction
+document.addEventListener('click', playMusic);
+document.addEventListener('touchstart', playMusic);
+
+/* ─── Video Modal ─── */
+function openVideoModal() {
+  document.getElementById('video-modal').classList.add('open');
+  var vid = document.getElementById('modal-video');
+  if (!vid.src || vid.src.indexOf('assets/DangYeu.mp4') === -1) {
+    vid.src = 'assets/DangYeu.mp4';
+    vid.style.display = 'block';
+    document.getElementById('upload-placeholder').style.display = 'none';
+    document.getElementById('modal-filename').textContent = 'DangYeu.mp4';
+    document.getElementById('modal-footer').classList.add('visible');
+  }
+  // Tạm dừng nhạc nền nếu đang phát để tránh xung đột âm thanh
+  if (isMusicPlaying) {
+    bgMusic.pause();
+    isMusicPlaying = false;
+  }
+  vid.play();
+}
+function closeVideoModal() {
+  var modal = document.getElementById('video-modal');
+  modal.classList.remove('open');
+  var vid = document.getElementById('modal-video');
+  vid.pause();
+  // Phát lại nhạc nền khi đóng video
+  bgMusic.play().then(function() {
+    isMusicPlaying = true;
+  }).catch(function(e) {
+    console.log("Cannot resume background music: ", e);
+  });
+}
+function loadVideo(input) {
+  if (!input.files || !input.files[0]) return;
+  var file = input.files[0];
+  var url  = URL.createObjectURL(file);
+  var vid  = document.getElementById('modal-video');
+  vid.src  = url;
+  vid.style.display = 'block';
+  document.getElementById('upload-placeholder').style.display = 'none';
+  document.getElementById('modal-filename').textContent = file.name;
+  document.getElementById('modal-footer').classList.add('visible');
+  vid.play();
+}
+// Close on backdrop click
+document.getElementById('video-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeVideoModal();
+});
+
 </script>
 </body>
 </html>
